@@ -1,0 +1,120 @@
+{
+  "name": "vue-dublin",
+  "version": "1.0.0",
+  "description": "Hugh does a presentation in Dublin",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/monochromechameleon/vue-dublin.git"
+  },
+  "main": "server.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "test": "npm run prettier && npm run eslint",
+    "eslint": "eslint --ext js,vue .",
+    "prettier": "prettier --write 'src/**/*.{js,vue}'",
+    "deploy": "rm -rf wwwroot && webpack -p && surge wwwroot"
+  },
+  "keywords": [
+    "vue",
+    "javascript",
+    "legacy",
+    "browsers",
+    "internet explorer"
+  ],
+  "author": {
+    "name": "Hugh Greenish"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "marked": "0.6.0",
+    "vue": "2.6.2",
+    "vue-router": "3.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "7.2.2",
+    "@babel/polyfill": "7.2.5",
+    "@babel/preset-env": "7.3.1",
+    "@babel/preset-stage-2": "7.0.0",
+    "@vue/eslint-config-prettier": "4.0.1",
+    "autoprefixer": "^9.4.7",
+    "babel-loader": "8.0.5",
+    "bootstrap": "4.2.1",
+    "copy-webpack-plugin": "4.6.0",
+    "css-loader": "2.1.0",
+    "eslint": "^5.13.0",
+    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-config-prettier": "4.0.0",
+    "eslint-friendly-formatter": "4.0.1",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-prettier": "3.0.1",
+    "eslint-plugin-vue": "5.1.0",
+    "exports-loader": "0.7.0",
+    "file-loader": "3.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "imports-loader": "0.8.0",
+    "jquery": "3.3.1",
+    "jsdom": "13.2.0",
+    "jsdom-global": "3.0.2",
+    "json-loader": "0.5.7",
+    "markdown-image-loader": "^2.0.0",
+    "mini-css-extract-plugin": "0.5.0",
+    "node-sass": "4.11.0",
+    "postcss-loader": "3.0.0",
+    "precss": "4.0.0",
+    "prettier": "^1.16.4",
+    "sass-loader": "7.1.0",
+    "style-loader": "0.23.1",
+    "surge": "^0.20.1",
+    "terser-webpack-plugin": "1.2.2",
+    "url-loader": "1.1.2",
+    "vue-loader": "15.6.2",
+    "vue-style-loader": "4.1.2",
+    "vue-template-compiler": "^2.6.2",
+    "webpack": "^4.29.2",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "engines": {
+    "node": ">=8.9.4"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/prettier",
+      "airbnb-base",
+      "prettier"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2017
+    }
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "wwwroot"
+  ],
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 100
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "modules": false,
+          "useBuiltIns": "usage",
+          "targets": {
+            "browsers": [
+              "last 2 versions",
+              "ie >= 11"
+            ]
+          }
+        }
+      ]
+    ]
+  }
+}

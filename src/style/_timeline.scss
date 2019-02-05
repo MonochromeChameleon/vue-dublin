@@ -1,0 +1,165 @@
+$startQuarter: 4;
+$startYear: 2000;
+$endQuarter: 1;
+$endYear: 2019;
+
+$numQuarters: (($endYear - $startYear - 1) * 4) + $endQuarter + (5 - $startQuarter);
+
+$engines: ('trident', #1ebbee), ('trident-c', mix(#1ebbee, #3277bc)), ('edge-html', #3277bc),
+  ('gecko', #ff6611), ('webkit', #1da462), ('webkit-jsc', lighten(#1da462, 30%)),
+  ('webkit-8', mix(#1da462, #ffcd46)), ('blink', #ffcd46), ('presto', #eb3a3a);
+
+@function getColumn($q, $y) {
+  $years: $y - $startYear - 1;
+  @return ($years * 4) + $q + (5 - $startQuarter);
+}
+
+@mixin quarter-columns($prop, $prefix, $offset) {
+  @for $q from 1 through 4 {
+    @for $y from $startYear through $endYear {
+      .#{$prefix}#{$q}-#{$y} {
+        grid-column-#{$prop}: getColumn($q, $y) + $offset;
+      }
+    }
+  }
+}
+
+@mixin grid($template-columns) {
+  display: grid;
+  grid-template-columns: $template-columns;
+  grid-row-gap: 3px;
+
+  @each $prefix, $prop in ('gcs', grid-column-start), ('gce', grid-column-end), ('row', grid-row) {
+    @for $i from 1 through $numQuarters {
+      .#{$prefix}-#{$i} {
+        #{$prop}: $i
+      }
+    }
+  }
+}
+
+@mixin fade($colour) {
+  &.fadeout {
+    background-color: inherit;
+    background-image: linear-gradient(to right, $colour, transparentize($colour, 1));
+  }
+
+  &.fadeless {
+    background-color: inherit;
+    background-image: linear-gradient(to right, $colour, transparentize($colour, 0.75));
+  }
+}
+
+.timeline,
+.support,
+.browsers {
+  .ticks {
+    border-top: 1px solid black;
+
+    div {
+      border-left: 1px solid black;
+      padding-left: 3px;
+    }
+  }
+
+  .bars div {
+    background-color: #dddddd;
+    padding-left: 3px;
+    white-space: nowrap;
+    overflow-x: visible;
+  }
+
+  .key {
+    display: none;
+  }
+}
+
+.timeline {
+  @include quarter-columns('start', 'q', 0);
+
+  .plain & {
+    @include quarter-columns('end', 'end-q', 1);
+  }
+
+  .extended & {
+    @include quarter-columns('end', '--end-q', 1);
+  }
+}
+
+.support {
+  @for $ie from 6 through 11 {
+    .ie#{$ie} {
+      grid-column-start: $ie - 4;
+    }
+  }
+}
+
+.timeline-grid {
+  @include grid(repeat($numQuarters, 1fr));
+}
+
+.support-grid {
+  @include grid(2fr repeat(6, 1fr) 2fr);
+}
+
+.browsers-grid {
+  @include grid(1fr);
+}
+
+.faded {
+  div {
+    @include fade(#cccccc);
+  }
+
+  .partial,
+  .ignore {
+    opacity: 0.5;
+  }
+}
+
+.colours .timeline .bars,
+.browsers .bars,
+.support .bars {
+  .key,
+  img {
+    display: unset;
+    background-color: inherit;
+    object-fit: contain;
+    max-height: 30px;
+  }
+
+  p {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    margin-bottom: 0;
+  }
+
+  @each $engine, $colour in $engines {
+    .#{$engine} {
+      background-color: $colour;
+      @include fade($colour);
+    }
+  }
+}
+
+.blinky {
+  .flash {
+    animation: blinker 1s linear infinite;
+  }
+
+  .goodbye {
+    animation: disappear 4s linear forwards;
+  }
+
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes disappear {
+    100% {
+      opacity: 0;
+    }
+  }
+}
